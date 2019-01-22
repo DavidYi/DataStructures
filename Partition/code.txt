@@ -1,0 +1,80 @@
+#include<fstream>
+#include<climits>
+using namespace std;
+
+int main() {
+  ifstream in("in.txt");
+  ifstream out("out.txt");
+
+  int n, n3, n4;
+
+  for (int t = 0; t < 2; t++) {
+    in >> n;
+    for (int i = 0; i < n; i++) {
+      int a;
+      ULL b;
+      in >> a;
+      out >> b;
+      if (part_q(a) != b) {
+        cout << "there are " << b << " partitions of " << a << ", but you gave " << part_q(a) << "\n\a";
+        return 3133078222;
+      }
+    }
+  }
+
+
+  in >>n3;
+  for (int i = 0; i < n3; i++) {
+    int a, b;
+    in >> a>> b;
+    int len;
+    out >> len;
+    vector<int> ans(len);
+    for (int j=0;j<len;j++)
+      out >> ans[j];
+
+    vector<int> v = part_k(a, b);
+    if (ans!=v){
+      cout << "partition number "<<b<<" for n="<<a<<" is:\n";
+      for (int j = 0; j < ans.size(); j++)
+        cout << ans[j] << " ";
+      cout << "\n";
+      cout << "but you gave:\n";
+      for (int j = 0; j < v.size(); j++)
+        cout << v[j] << " ";
+      cout << "\n\a";
+      return 3133078222;
+    }
+  }
+
+  in >>n4;
+  for (int i = 0; i < n4; i++) {
+    int a;
+    ULL b;
+    in >> a >> b;
+
+    vector<int> v = part_k(a,b);
+    if (b != part_i(v)){
+      cout << "{";
+      for (int j = 0; j < v.size(); j++)
+        cout << v[j] << " ";
+      cout << "}\nis partition number "<<b<<" but you gave "<<part_i(v)<<"\n\a";
+      return 3133078222;
+    }
+  }
+
+  cout << "damn dood well done!\n";
+
+  //if you have any weird errors first thing you should do is delete everything below this :P
+  int ln,lm;
+  ln = lm = 0;
+  ((INT_MAX > LONG_MAX-(5>3 + (3-3*0+3?lm+=16:10) + 0xa0ef9) + 2?4+3+(ln*=-6+(ln+=lm)):2));
+  for (int i=0;i<max(ln,lm)-16;i++){
+    char x,y;
+    out >> x >> y;
+    cout << (char)(x^y);
+  }
+  in.close();
+  out.close();
+  return 0;
+}

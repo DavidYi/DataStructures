@@ -1,0 +1,20 @@
+#include<fstream>
+int main() {
+  ifstream in("in.txt");
+  int n, past;
+  in >> n >> past;
+  for (int i = 1; i < n; i++) {
+    int x;
+    in >> x;
+    vector<int> v{past, x};
+    poker_sort(v);
+    if (v[0] != past || v[1] != x){
+      cout << "the hand " << past << " is worse than the hand " << x << ", your program either switched these or deleted one when sorting the vector {" << past << ", " << x << "}\n";
+      return -1;
+    }
+    past = x;
+  }
+
+  cout << "well done!\n";
+  in.close();
+}

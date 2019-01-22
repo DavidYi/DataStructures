@@ -1,0 +1,78 @@
+#include <bits/stdc++.h>
+
+int main() {
+    std::cout << "testing josephus:\n";
+
+    std::ifstream input("in.txt");
+    std::ifstream output("out.txt");
+
+    int n;
+    input >> n;
+    bool fail = false;
+    for(int i = 0; i < n; i++) {
+        int a, b;
+        input >> a >> b;
+        std::clock_t start = std::clock();
+        vector<int> v = josephus(a, b);
+        double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+        for (int j = 0; j < a; j++){
+            int ans;
+            output >> ans;
+            if (v[j] != ans) {
+                std::cout << v[j] << "," << ans << "\n";
+                std::cout << "fail on case #" << i << " at index "<< j <<"\n";
+                fail = true;
+                break;
+            }
+        }
+        std::cout << "case #"<<i<<" took "<<duration<<" secs to run\n";
+    }
+
+    if (!fail)
+        std::cout << "all clear!\n";
+
+
+    input.close();
+    output.close();
+    std::cout << "----------------------\n\n";
+
+    std::ifstream input2("in2.txt");
+    std::ifstream output2("out2.txt");
+
+    std::cout << "testing floyd:\n";
+    input2 >> n;
+    fail = false;
+    for(int i = 0; i < n; i++) {
+        int a, b, c;
+        input2 >> a >> c >> b;
+
+        vector<Link<int>* > ls(a);
+        ls[a-1]= new Link<int>(0);
+        for (int j = a-2; j >= 0; j--)
+            ls[j]= new Link<int>(0,ls[j + 1]);
+        if (b != -1)
+            ls[b]->next = ls[c];
+
+        std::clock_t start = std::clock();
+        vector<int> v = loopTail(ls[0]);
+        double duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
+
+        for (int j = 0; j < v.size(); j++){
+            int ans;
+            output2 >> ans;
+            if (v[j] != ans) {
+                std::cout << v[j] << "," << ans << "\n";
+                std::cout << "fail on case #" << i << " at index "<< j <<"\n";
+                fail = true;
+                break;
+            }
+        }
+        std::cout << "case #"<<i<<" took "<<duration<<" secs to run\n";
+    }
+
+    if (!fail)
+        std::cout << "all clear!\n";
+    input2.close();
+    output2.close();
+}

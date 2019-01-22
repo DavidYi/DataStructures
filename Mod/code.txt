@@ -1,0 +1,72 @@
+using namespace std;
+
+int main() {
+  ifstream in ("in.txt");
+  ifstream out ("out.txt");
+
+  long n;
+  in >> n;
+
+  Mod::set_modulus(17);
+  cout << "testing your conditionals\n";
+
+  bool bad = true;
+
+  if (!(Mod(-12) == Mod(22)))
+    cout << "check your ==(Mod, Mod)\n";
+  else if (!(Mod(-12) == 22))
+    cout << "check your ==(long, Mod)\n";
+  else if (Mod(22) != Mod(-12))
+    cout << "check your !=(Mod, Mod)\n";
+  else if (Mod(5) != -12)
+    cout << "check your !=(long, Mod)\n";
+  else
+    bad = false;
+
+  if (bad)
+    return 0;
+
+  cout << "conditionals all good\n";
+  cout << "\ntesting arithmetic...\n";
+
+  for (int i = 0; i < n; i++) {
+    long prime;
+    in >> prime;
+    Mod::set_modulus(prime);
+
+    for (int j = 0; j < 180; j++) {
+      long a, b;
+      in >> a >> b;
+
+      int c;
+      in >> c;
+
+      Mod ans(0);
+
+      Mod A(a), B(b);
+      int co = 0;
+      for (int s = 0; s < 5; s++) {
+        if (s == 3 && c & 1) continue;
+        if (s == 4 && c > 1) continue;
+        co++;
+        out >> ans;
+
+        Mod myans(!s ? A + B : !(s - 1) ? A - B : !(s - 2) ? A*B : !(s - 3) ? A / B : A.pwr(b));
+
+        if (myans != ans) {
+          cout << "wrong answer for " << a << " " << (!s ? "+" : !(s - 1) ? "-" : !(s - 2) ? "*" : !(s - 3) ? "/" : "pwr") << " " << b << " (mod " << prime << ")\n";
+          cout << "correct: " << ans << ", your answer: " << myans << endl;
+          bad = true;
+          break;
+        }
+      }
+      if (bad) break;
+    }
+    if (bad) break;
+  }
+  if (!bad) cout << "all passed!!!\n";
+
+  in.close();
+  out.close();
+  return 0;
+}
